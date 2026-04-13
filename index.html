@@ -156,10 +156,11 @@
 
     .cal-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 0;
       border-top: 1.5px solid var(--border);
       border-left: 1.5px solid var(--border);
+      width: 100%;
     }
 
     .cal-day-name {
@@ -172,16 +173,20 @@
       color: var(--light);
       border-right: 1.5px solid var(--border);
       border-bottom: 1.5px solid var(--border);
+      min-width: 0;
+      overflow: hidden;
     }
 
     .cal-cell {
       min-height: 100px;
+      min-width: 0;
       padding: 8px;
       border-right: 1.5px solid var(--border);
       border-bottom: 1.5px solid var(--border);
       position: relative;
       cursor: default;
       transition: background 0.12s ease;
+      overflow: hidden;
     }
 
     .cal-cell:hover { background: #fdfcfa; }
@@ -679,7 +684,7 @@
     }
 
     // Auto-switch to list view on mobile for cleaner display
-    if (window.innerWidth <= 600) {
+    if (window.innerWidth <= 768) {
       currentView = 'list';
       document.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
       document.querySelector('.view-btn[data-view="list"]').classList.add('active');
