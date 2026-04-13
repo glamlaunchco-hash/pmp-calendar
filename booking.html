@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Photobooth — Picture Me Perfect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0e0e0e;
+      --dark: #1a1a1a;
+      --charcoal: #2c2c2c;
+      --mid: #6b6b6b;
+      --light: #a0a0a0;
+      --silver: #c8c8c8;
+      --faint: #e5e5e5;
+      --soft-gray: #f2f2f2;
+      --bg: #f7f7f7;
+      --white: #ffffff;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+    }
+
+    .animate.visible {
+      animation-fill-mode: both;
+    }
+
+    .animate.visible.fade-up { animation: fadeInUp 0.7s ease-out both; }
+    .animate.visible.fade-in { animation: fadeIn 0.6s ease-out both; }
+    .animate.visible.scale-in { animation: scaleIn 0.6s ease-out both; }
+    .animate.visible.slide-down { animation: slideDown 0.6s ease-out both; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      padding: 72px 24px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--silver);
+    }
+
+    .hero .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-bottom: 20px;
+      animation: fadeIn 0.8s ease-out both;
+    }
+
+    .hero h1 {
+      font-weight: 900;
+      font-size: 2.4rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .hero p {
+      font-weight: 400;
+      font-size: 1rem;
+      color: var(--light);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    /* ===== STEPS ===== */
+    .steps {
+      max-width: 100%;
+      margin: 0;
+      padding: 64px 24px 48px;
+      background: var(--white);
+    }
+
+    .steps-title {
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .steps-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin-bottom: 48px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 960px;
+      margin: 0 auto;
+      padding-top: 36px;
+    }
+
+    .step-card {
+      background: var(--soft-gray);
+      border-radius: var(--radius);
+      padding: 56px 28px 36px;
+      text-align: center;
+      position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+
+    .step-icon {
+      width: 68px;
+      height: 68px;
+      background: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -34px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .step-card:hover .step-icon {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .step-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .step-num-top {
+      font-weight: 900;
+      font-size: 2.8rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .step-card h3 {
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .step-card p {
+      font-size: 0.82rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ===== CALENDAR SECTION ===== */
+    .calendar-section {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+      background: var(--white);
+    }
+
+    .calendar-section-wrap {
+      background: var(--white);
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-label .label-num {
+      width: 36px;
+      height: 36px;
+      background: var(--dark);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 0.85rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-label h2 {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+
+    .section-label h2 span {
+      display: block;
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: var(--mid);
+      text-transform: none;
+      letter-spacing: 0.01em;
+      margin-top: 2px;
+    }
+
+    .calendar-embed {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      background: var(--white);
+      height: 720px;
+    }
+
+    /* ===== HONEYBOOK SECTION ===== */
+    .form-section {
+      background: var(--white);
+      padding: 72px 24px;
+      position: relative;
+      border-top: 1px solid var(--faint);
+    }
+
+    .form-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .form-section .section-label {
+      margin-bottom: 12px;
+    }
+
+    .form-intro {
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin-bottom: 36px;
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    .honeybook-embed {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      min-height: 900px;
+      background: var(--bg);
+    }
+
+    /* ===== FOOTER ===== */
+    .page-footer {
+      background: var(--dark);
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero { padding: 56px 20px 48px; }
+      .hero h1 { font-size: 1.7rem; }
+      .steps-grid { grid-template-columns: 1fr; gap: 20px; }
+      .step-card { padding: 36px 24px 28px; }
+      .step-num-top { font-size: 1.8rem; }
+      .calendar-embed { height: 560px; }
+      .honeybook-embed { min-height: 700px; }
+      .form-section { padding: 56px 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.4rem; }
+      .hero p { font-size: 0.88rem; }
+      .calendar-embed { height: 480px; }
+      .honeybook-embed { min-height: 600px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="tag">Picture Me Perfect Photobooth</div>
+    <h1>Book Your Photobooth Experience</h1>
+    <p>Make your next event unforgettable. Check our availability and schedule your free consultation in just two easy steps.</p>
+  </section>
+
+  <!-- STEPS -->
+  <section class="steps">
+    <h2 class="steps-title animate fade-up">How It Works</h2>
+    <p class="steps-sub animate fade-up" style="animation-delay:0.1s">Three simple steps to book your perfect photobooth experience</p>
+
+    <div class="steps-grid">
+      <div class="step-card animate scale-in" style="animation-delay:0.15s">
+        <div class="step-num-top">1</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><rect x="7" y="14" width="3" height="3" rx="0.5"/></svg>
+        </div>
+        <h3>Check Availability</h3>
+        <p>Browse our live calendar below to see if your event date is still open. <em>We book up fast!</em></p>
+      </div>
+
+      <div class="step-card animate scale-in" style="animation-delay:0.3s">
+        <div class="step-num-top">2</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <h3>Schedule a Call</h3>
+        <p>Fill out our inquiry form to book a <strong>free 15-minute consultation call</strong> with our team.</p>
+      </div>
+
+      <div class="step-card animate scale-in" style="animation-delay:0.45s">
+        <div class="step-num-top">3</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12l3 3 5-5" stroke-width="2"/></svg>
+        </div>
+        <h3>Lock In Your Date</h3>
+        <p>After your consultation, we'll send a custom quote and reserve your date with a deposit. Done!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 1: CALENDAR -->
+  <div class="calendar-section-wrap">
+    <section class="calendar-section animate fade-up" id="calendar">
+      <div class="section-label">
+        <div class="label-num">1</div>
+        <h2>Check Our Availability <span>See which dates are already booked and find your perfect date</span></h2>
+      </div>
+      <iframe
+        class="calendar-embed"
+        src="https://glamlaunchco-hash.github.io/pmp-calendar/"
+        title="PMP Bookings Calendar"
+        loading="lazy"
+      ></iframe>
+    </section>
+  </div>
+
+  <!-- STEP 2: HONEYBOOK INQUIRY FORM -->
+  <section class="form-section animate fade-up" id="book">
+    <div class="form-wrap">
+      <div class="section-label">
+        <div class="label-num">2</div>
+        <h2>Schedule Your Free 15-Minute Consultation <span>Tell us about your event and we'll be in touch within 24 hours</span></h2>
+      </div>
+
+      <p class="form-intro">Found an open date? Fill out the inquiry form below and we'll reach out to schedule your free consultation call.</p>
+
+      <iframe
+        class="honeybook-embed"
+        src="https://socialcontent.hbportal.co/public/signature-photobooth-rental"
+        title="PMP Inquiry Form — HoneyBook"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+
+  <footer class="page-footer">&copy; 2026 Picture Me Perfect Photobooth &mdash; All Things PMP Enterprise LLC</footer>
+
+  <!-- Scroll animation trigger -->
+  <script>
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.animate').forEach(function(el) {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
