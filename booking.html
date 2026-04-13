@@ -314,6 +314,69 @@
       background: var(--bg);
     }
 
+    /* ===== CLOSING SECTION ===== */
+    .closing-section {
+      background: var(--black);
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .closing-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .closing-section h2 {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      padding: 14px 28px;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .back-link:hover {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    .back-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.25s ease;
+    }
+
+    .back-link:hover .back-arrow {
+      transform: translateX(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .closing-section { padding: 60px 20px; }
+      .closing-section h2 { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 480px) {
+      .closing-section h2 { font-size: 1.1rem; }
+      .back-link { font-size: 0.75rem; padding: 12px 24px; }
+    }
+
     /* ===== FOOTER ===== */
     .page-footer {
       background: var(--dark);
@@ -328,17 +391,21 @@
     @media (max-width: 768px) {
       .hero { padding: 56px 20px 48px; }
       .hero h1 { font-size: 1.7rem; }
-      .steps-grid { grid-template-columns: 1fr; gap: 20px; }
-      .step-card { padding: 36px 24px 28px; }
-      .step-num-top { font-size: 1.8rem; }
+      .steps-grid { grid-template-columns: 1fr; gap: 56px; padding-top: 40px; }
+      .step-card { padding: 48px 24px 32px; }
+      .step-num-top { font-size: 2rem; }
       .calendar-embed { height: 560px; }
       .honeybook-embed { min-height: 700px; }
       .form-section { padding: 56px 16px; }
+      .section-label { flex-direction: column; text-align: center; }
+      .section-label h2 { text-align: center; }
+      .form-intro { text-align: center; margin-left: auto; margin-right: auto; }
     }
 
     @media (max-width: 480px) {
       .hero h1 { font-size: 1.4rem; }
       .hero p { font-size: 0.88rem; }
+      .steps-grid { gap: 60px; }
       .calendar-embed { height: 480px; }
       .honeybook-embed { min-height: 600px; }
     }
@@ -420,6 +487,16 @@
         title="PMP Inquiry Form — HoneyBook"
         loading="lazy"
       ></iframe>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CLOSING -->
+  <section class="closing-section animate fade-up">
+    <div class="closing-inner">
+      <h2>We Look Forward to Helping You Have an Unforgettable Experience</h2>
+      <a href="https://allthingspmp.com" class="back-link">
+        <span class="back-arrow">&larr;</span> Back to All Things PMP
+      </a>
     </div>
   </section>
 
