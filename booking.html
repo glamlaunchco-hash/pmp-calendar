@@ -68,6 +68,117 @@
     .animate.visible.scale-in { animation: scaleIn 0.6s ease-out both; }
     .animate.visible.slide-down { animation: slideDown 0.6s ease-out both; }
 
+    /* ===== SITE NAV (matches allthingspmp.com) ===== */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    @media (max-width: 860px) {
+      .nav-toggle { display: flex; }
+      .nav-right {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: var(--black);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding: 4px 24px 18px;
+        display: none;
+      }
+      .site-nav.open .nav-right { display: flex; }
+      .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: 100%;
+      }
+      .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 13px 0;
+        font-size: 0.9rem;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      .nav-links li:last-child a { border-bottom: none; }
+      .site-nav.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .site-nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+      .site-nav.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+
     /* ===== HERO ===== */
     .hero {
       background: var(--black);
@@ -377,14 +488,64 @@
       .back-link { font-size: 0.75rem; padding: 12px 24px; }
     }
 
-    /* ===== FOOTER ===== */
-    .page-footer {
+    /* ===== FOOTER (matches allthingspmp.com) ===== */
+    .site-footer {
       background: var(--dark);
-      text-align: center;
-      padding: 28px 20px;
+      padding: 56px 24px 28px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .footer-brand img { height: 40px; width: auto; display: block; }
+
+    .footer-cols {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 64px;
+    }
+
+    .footer-col h4 {
       font-size: 0.72rem;
-      color: rgba(255,255,255,0.35);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col a:hover { color: var(--white); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      font-size: 0.72rem;
       letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.4);
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner { flex-direction: column; gap: 32px; }
+      .footer-cols { gap: 40px; }
     }
 
     /* ===== RESPONSIVE ===== */
@@ -412,6 +573,27 @@
   </style>
 </head>
 <body>
+
+  <!-- SITE NAV -->
+  <header class="site-nav" id="siteNav">
+    <div class="nav-inner">
+      <a href="https://allthingspmp.com" class="nav-logo" aria-label="Picture Me Perfect — Home">
+        <img src="https://images.squarespace-cdn.com/content/v1/68f52f63c8187d10fb3fe289/f9152776-18b1-43af-a0f2-0010ea891a4c/logo_size_invert.png?format=750w" alt="Picture Me Perfect" />
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right" id="navRight">
+        <ul class="nav-links">
+          <li><a href="https://allthingspmp.com/social-pmp">Social PMP</a></li>
+          <li><a href="https://allthingspmp.com/picture-me-perfect-photobooth-1">Photobooth Rentals</a></li>
+          <li><a href="https://allthingspmp.com/b-iheize-photography">B. Iheize Photography</a></li>
+          <li><a href="https://allthingspmp.com/about">About</a></li>
+          <li><a href="https://allthingspmp.com/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
 
   <!-- HERO -->
   <section class="hero">
@@ -500,7 +682,28 @@
     </div>
   </section>
 
-  <footer class="page-footer">&copy; 2026 Picture Me Perfect Photobooth &mdash; All Things PMP Enterprise LLC</footer>
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a href="https://allthingspmp.com" class="footer-brand" aria-label="Picture Me Perfect — Home">
+        <img src="https://images.squarespace-cdn.com/content/v1/68f52f63c8187d10fb3fe289/f9152776-18b1-43af-a0f2-0010ea891a4c/logo_size_invert.png?format=750w" alt="Picture Me Perfect" />
+      </a>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>All Things PMP</h4>
+          <a href="https://allthingspmp.com/about">About</a>
+          <a href="https://allthingspmp.com/contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Our Services</h4>
+          <a href="https://allthingspmp.com/social-pmp">Social PMP</a>
+          <a href="https://allthingspmp.com/b-iheize-photography">B. Iheize Photography</a>
+          <a href="https://allthingspmp.com/picture-me-perfect-photobooth-1">PMP Photobooth Rental</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Picture Me Perfect Photobooth &mdash; All Things PMP Enterprise LLC</div>
+  </footer>
 
   <!-- Scroll animation trigger -->
   <script>
@@ -516,6 +719,16 @@
     document.querySelectorAll('.animate').forEach(function(el) {
       observer.observe(el);
     });
+
+    // Mobile nav toggle
+    var navToggle = document.getElementById('navToggle');
+    var siteNav = document.getElementById('siteNav');
+    if (navToggle && siteNav) {
+      navToggle.addEventListener('click', function() {
+        var open = siteNav.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
   </script>
 
 </body>
