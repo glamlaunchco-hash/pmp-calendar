@@ -683,12 +683,7 @@
       render();
     }
 
-    // Auto-switch to list view on mobile for cleaner display
-    if (window.innerWidth <= 768) {
-      currentView = 'list';
-      document.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
-      document.querySelector('.view-btn[data-view="list"]').classList.add('active');
-    }
+    // Default to month/calendar view across all viewports (user override via List button)
 
     load();
   </script>
