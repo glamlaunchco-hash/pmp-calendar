@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Classic Photobooth — Picture Me Perfect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0e0e0e;
+      --dark: #1a1a1a;
+      --charcoal: #2c2c2c;
+      --mid: #6b6b6b;
+      --light: #a0a0a0;
+      --silver: #c8c8c8;
+      --faint: #e5e5e5;
+      --soft-gray: #f2f2f2;
+      --bg: #f7f7f7;
+      --white: #ffffff;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+    }
+
+    .animate.visible {
+      animation-fill-mode: both;
+    }
+
+    .animate.visible.fade-up { animation: fadeInUp 0.7s ease-out both; }
+    .animate.visible.fade-in { animation: fadeIn 0.6s ease-out both; }
+    .animate.visible.scale-in { animation: scaleIn 0.6s ease-out both; }
+    .animate.visible.slide-down { animation: slideDown 0.6s ease-out both; }
+
+    /* ===== SITE NAV (matches allthingspmp.com) ===== */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      position: relative;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 22px 44px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-logo {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      height: 84px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-right {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      gap: 38px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 38px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+      flex-direction: column;
+      gap: 7px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 26px;
+      height: 1.5px;
+      background: var(--white);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .nav-mobile-logo { display: none; }
+
+    @media (max-width: 860px) {
+      .nav-inner { padding: 18px 22px; }
+      .nav-logo { grid-column: 2; justify-self: center; align-self: center; }
+      .nav-logo img { height: 58px; }
+      .nav-toggle {
+        display: flex;
+        grid-column: 1;
+        justify-self: start;
+        align-self: center;
+      }
+
+      /* Closed: panel hidden */
+      .nav-right { display: none; }
+
+      /* Open: full-screen white overlay (matches allthingspmp.com mobile menu) */
+      .site-nav.open .nav-right {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--white);
+        padding: 96px 24px 48px;
+        overflow-y: auto;
+      }
+
+      .site-nav.open .nav-mobile-logo {
+        display: block;
+        position: absolute;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .site-nav.open .nav-mobile-logo img {
+        height: 54px;
+        width: auto;
+        display: block;
+        opacity: 0.28;
+        filter: invert(1);
+      }
+
+      .site-nav.open .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        width: 100%;
+        max-width: 480px;
+        list-style: none;
+      }
+      .site-nav.open .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 6px 0;
+        font-size: 1.7rem;
+        font-weight: 400;
+        letter-spacing: 0;
+        color: var(--black);
+        text-align: center;
+        line-height: 1.25;
+        border-bottom: none;
+        white-space: normal;
+      }
+
+      /* Hamburger becomes X, elevated above the white panel */
+      .site-nav.open .nav-toggle {
+        position: fixed;
+        top: 22px;
+        left: 22px;
+        z-index: 2100;
+      }
+      .site-nav.open .nav-toggle span { background: var(--black); }
+      .site-nav.open .nav-toggle span:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+      .site-nav.open .nav-toggle span:nth-child(2) { transform: translateY(-4.5px) rotate(-45deg); }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      padding: 72px 24px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--silver);
+    }
+
+    .hero .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-bottom: 20px;
+      animation: fadeIn 0.8s ease-out both;
+    }
+
+    .hero h1 {
+      font-weight: 900;
+      font-size: 2.4rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .hero p {
+      font-weight: 400;
+      font-size: 1rem;
+      color: var(--light);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    /* ===== STEPS ===== */
+    .steps {
+      max-width: 100%;
+      margin: 0;
+      padding: 64px 24px 48px;
+      background: var(--white);
+    }
+
+    .steps-title {
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .steps-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin-bottom: 48px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 960px;
+      margin: 0 auto;
+      padding-top: 36px;
+    }
+
+    .step-card {
+      background: var(--soft-gray);
+      border-radius: var(--radius);
+      padding: 56px 28px 36px;
+      text-align: center;
+      position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+
+    .step-icon {
+      width: 68px;
+      height: 68px;
+      background: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -34px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .step-card:hover .step-icon {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .step-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .step-num-top {
+      font-weight: 900;
+      font-size: 2.8rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .step-card h3 {
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .step-card p {
+      font-size: 0.82rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ===== CALENDAR SECTION ===== */
+    .calendar-section {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+      background: var(--white);
+    }
+
+    .calendar-section-wrap {
+      background: var(--white);
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-label .label-num {
+      width: 36px;
+      height: 36px;
+      background: var(--dark);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 0.85rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-label h2 {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+
+    .section-label h2 span {
+      display: block;
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: var(--mid);
+      text-transform: none;
+      letter-spacing: 0.01em;
+      margin-top: 2px;
+    }
+
+    .calendar-embed {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      background: var(--white);
+      height: 720px;
+    }
+
+    /* ===== HONEYBOOK SECTION ===== */
+    .form-section {
+      background: var(--white);
+      padding: 72px 24px;
+      position: relative;
+      border-top: 1px solid var(--faint);
+    }
+
+    .form-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .form-section .section-label {
+      margin-bottom: 12px;
+    }
+
+    .form-intro {
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin-bottom: 36px;
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    .honeybook-embed {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      min-height: 900px;
+      background: var(--bg);
+    }
+
+    /* ===== CLOSING SECTION ===== */
+    .closing-section {
+      background: var(--black);
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .closing-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .closing-section h2 {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      padding: 14px 28px;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .back-link:hover {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    .back-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.25s ease;
+    }
+
+    .back-link:hover .back-arrow {
+      transform: translateX(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .closing-section { padding: 60px 20px; }
+      .closing-section h2 { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 480px) {
+      .closing-section h2 { font-size: 1.1rem; }
+      .back-link { font-size: 0.75rem; padding: 12px 24px; }
+    }
+
+    /* ===== FOOTER (matches allthingspmp.com) ===== */
+    .site-footer {
+      background: var(--dark);
+      padding: 56px 24px 28px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .footer-brand img { height: 40px; width: auto; display: block; }
+
+    .footer-cols {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 64px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col a:hover { color: var(--white); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.4);
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner { flex-direction: column; gap: 32px; }
+      .footer-cols { gap: 40px; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero { padding: 56px 20px 48px; }
+      .hero h1 { font-size: 1.7rem; }
+      .steps-grid { grid-template-columns: 1fr; gap: 56px; padding-top: 40px; }
+      .step-card { padding: 48px 24px 32px; }
+      .step-num-top { font-size: 2rem; }
+      .calendar-embed { height: 560px; }
+      .honeybook-embed { min-height: 700px; }
+      .form-section { padding: 56px 16px; }
+      .section-label { flex-direction: column; text-align: center; }
+      .section-label h2 { text-align: center; }
+      .form-intro { text-align: center; margin-left: auto; margin-right: auto; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.4rem; }
+      .hero p { font-size: 0.88rem; }
+      .steps-grid { gap: 60px; }
+      .calendar-embed { height: 480px; }
+      .honeybook-embed { min-height: 600px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE NAV -->
+  <header class="site-nav" id="siteNav">
+    <div class="nav-inner">
+      <a href="https://allthingspmp.com" class="nav-logo" aria-label="Picture Me Perfect — Home">
+        <img src="https://images.squarespace-cdn.com/content/v1/68f52f63c8187d10fb3fe289/f9152776-18b1-43af-a0f2-0010ea891a4c/logo_size_invert.png?format=750w" alt="Picture Me Perfect" />
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <div class="nav-right" id="navRight">
+        <div class="nav-mobile-logo" aria-hidden="true">
+          <img src="https://images.squarespace-cdn.com/content/v1/68f52f63c8187d10fb3fe289/f9152776-18b1-43af-a0f2-0010ea891a4c/logo_size_invert.png?format=750w" alt="" />
+        </div>
+        <ul class="nav-links">
+          <li><a href="https://allthingspmp.com/social-pmp">Social PMP</a></li>
+          <li><a href="https://allthingspmp.com/picture-me-perfect-photobooth-1">Photobooth Rentals</a></li>
+          <li><a href="https://allthingspmp.com/b-iheize-photography">B. Iheize Photography</a></li>
+          <li><a href="https://allthingspmp.com/about">About</a></li>
+          <li><a href="https://allthingspmp.com/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="tag">Picture Me Perfect Photobooth</div>
+    <h1>Book Your Classic Photobooth Experience</h1>
+    <p>Make your next event unforgettable. Check our availability and schedule your free consultation in just two easy steps.</p>
+  </section>
+
+  <!-- STEPS -->
+  <section class="steps">
+    <h2 class="steps-title animate fade-up">How It Works</h2>
+    <p class="steps-sub animate fade-up" style="animation-delay:0.1s">Three simple steps to book your perfect photobooth experience</p>
+
+    <div class="steps-grid">
+      <div class="step-card animate scale-in" style="animation-delay:0.15s">
+        <div class="step-num-top">1</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><rect x="7" y="14" width="3" height="3" rx="0.5"/></svg>
+        </div>
+        <h3>Check Availability</h3>
+        <p>Browse our live calendar below to see if your event date is still open. <em>We book up fast!</em></p>
+      </div>
+
+      <div class="step-card animate scale-in" style="animation-delay:0.3s">
+        <div class="step-num-top">2</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <h3>Schedule a Call</h3>
+        <p>Fill out our inquiry form to book a <strong>free 15-minute consultation call</strong> with our team.</p>
+      </div>
+
+      <div class="step-card animate scale-in" style="animation-delay:0.45s">
+        <div class="step-num-top">3</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12l3 3 5-5" stroke-width="2"/></svg>
+        </div>
+        <h3>Lock In Your Date</h3>
+        <p>After your consultation, we'll send a custom quote and reserve your date with a deposit. Done!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 1: CALENDAR -->
+  <div class="calendar-section-wrap">
+    <section class="calendar-section animate fade-up" id="calendar">
+      <div class="section-label">
+        <div class="label-num">1</div>
+        <h2>Check Our Availability <span>See which dates are already booked and find your perfect date</span></h2>
+      </div>
+      <iframe
+        class="calendar-embed"
+        src="https://glamlaunchco-hash.github.io/pmp-calendar/"
+        title="PMP Bookings Calendar"
+        loading="lazy"
+      ></iframe>
+    </section>
+  </div>
+
+  <!-- STEP 2: HONEYBOOK INQUIRY FORM -->
+  <section class="form-section animate fade-up" id="book">
+    <div class="form-wrap">
+      <div class="section-label">
+        <div class="label-num">2</div>
+        <h2>Schedule Your Free 15-Minute Consultation <span>Tell us about your event and we'll be in touch within 24 hours</span></h2>
+      </div>
+
+      <p class="form-intro">Found an open date? Fill out the inquiry form below and we'll reach out to schedule your free consultation call.</p>
+
+      <iframe
+        class="honeybook-embed"
+        src="https://socialcontent.hbportal.co/public/classic-photobooth-rental"
+        title="PMP Inquiry Form — HoneyBook"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CLOSING -->
+  <section class="closing-section animate fade-up">
+    <div class="closing-inner">
+      <h2>We Look Forward to Helping You Have an Unforgettable Experience</h2>
+      <a href="https://allthingspmp.com" class="back-link">
+        <span class="back-arrow">&larr;</span> Back to All Things PMP
+      </a>
+    </div>
+  </section>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a href="https://allthingspmp.com" class="footer-brand" aria-label="Picture Me Perfect — Home">
+        <img src="https://images.squarespace-cdn.com/content/v1/68f52f63c8187d10fb3fe289/f9152776-18b1-43af-a0f2-0010ea891a4c/logo_size_invert.png?format=750w" alt="Picture Me Perfect" />
+      </a>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>All Things PMP</h4>
+          <a href="https://allthingspmp.com/about">About</a>
+          <a href="https://allthingspmp.com/contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Our Services</h4>
+          <a href="https://allthingspmp.com/social-pmp">Social PMP</a>
+          <a href="https://allthingspmp.com/b-iheize-photography">B. Iheize Photography</a>
+          <a href="https://allthingspmp.com/picture-me-perfect-photobooth-1">PMP Photobooth Rental</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Picture Me Perfect Photobooth &mdash; All Things PMP Enterprise LLC</div>
+  </footer>
+
+  <!-- Scroll animation trigger -->
+  <script>
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.animate').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // Mobile nav toggle
+    var navToggle = document.getElementById('navToggle');
+    var siteNav = document.getElementById('siteNav');
+    if (navToggle && siteNav) {
+      navToggle.addEventListener('click', function() {
+        var open = siteNav.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+    }
+  </script>
+
+</body>
+</html>
